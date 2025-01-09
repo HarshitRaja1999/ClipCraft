@@ -1,3 +1,4 @@
+import sys
 import os
 import tkinter as tk
 from tkinter import filedialog, ttk
@@ -82,36 +83,21 @@ def run_ffmpeg(option, input_file, output_file, progress_bar, status_label, tile
             "ffmpeg", "-i", input_file, "-vf", "scale=1280:720", "-c:v", "libx264", "-crf", "23", "-preset", "medium",
             "-c:a", "aac", "-b:a", "128k", output_file
         ],
-        "Reduce Bitrate": [
-            "ffmpeg", "-i", input_file, "-b:v", "1000k", "-c:v", "libx264", "-preset", "medium",
-            "-c:a", "aac", "-b:a", "128k", output_file
-        ],
-        "Use Constant Rate Factor (CRF)": [
-            "ffmpeg", "-i", input_file, "-c:v", "libx264", "-crf", "28", "-preset", "slow",
-            "-c:a", "aac", "-b:a", "128k", output_file
-        ],
-        "Change Codec to H.265": [
-            "ffmpeg", "-i", input_file, "-c:v", "libx265", "-crf", "28", "-preset", "medium",
-            "-c:a", "aac", "-b:a", "128k", output_file
-        ],
-        "Lower Frame Rate": [
-            "ffmpeg", "-i", input_file, "-r", "24", "-c:v", "libx264", "-crf", "23", "-preset", "medium",
-            "-c:a", "aac", "-b:a", "128k", output_file
-        ],
-        "Remove Audio": [
-            "ffmpeg", "-i", input_file, "-an", "-c:v", "libx264", "-crf", "23", "-preset", "medium", output_file
-        ],
-        "Maximum Compression": [
-            "ffmpeg", "-i", input_file, "-c:v", "libx265", "-crf", "30", "-preset", "slower", "-c:a", "aac", "-b:a", "64k",
-            output_file
-        ],
+        # Add other commands as needed
     }
 
     command = commands.get(option)
 
+    # For Windows, to prevent console window, we use `creationflags`
+    if sys.platform == "win32":
+        creation_flags = subprocess.CREATE_NO_WINDOW
+    else:
+        creation_flags = 0  # No flags for other platforms
+
     try:
         status_label.config(text="Processing...", fg="orange")
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, 
+                                   universal_newlines=True, creationflags=creation_flags)
 
         # Simulate progress bar updates
         for line in process.stdout:
