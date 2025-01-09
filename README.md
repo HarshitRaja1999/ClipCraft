@@ -111,7 +111,7 @@ Once the task is selected, the tool processes the videos and saves the output to
 ## Running the Executable
 
 * After downloading or building the executable `.exe`, double-click it to run the application. The interface will allow you to select a file or folder and choose the desired processing task.
-* You can also download the exe from [Here](https://github.com/HarshitRaja1999/ClipCraft/blob/main/ClipCraft/dist/ClipCraft.exe) it is already built from the same source code.
+* You can also download the exe from [Here](https://github.com/HarshitRaja1999/ClipCraft/blob/main/ClipCraft/dist/) it is already built from the same source code.
 
 ### Select File/Folder
 
